@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { prisma } from "@songdrop/db";
 import { ExternalLink, Music } from "lucide-react";
@@ -47,6 +48,16 @@ function parseLinks(raw: string): [string, string][] {
 
 async function getSong(slug: string) {
   return prisma.song.findUnique({ where: { slug } });
+}
+
+const PLATFORM_ICONS: Record<string, string> = {
+  spotify: "/spotify.svg",
+  applemusic: "/applemusic.svg",
+  deezer: "/deezer.png",
+};
+
+function platformIcon(platform: string) {
+  return PLATFORM_ICONS[platform.toLowerCase().replace(/[\s_-]/g, "")] ?? null;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -124,27 +135,44 @@ export default async function Page({ params }: Props) {
 
             {links.length > 0 ? (
               <ul className="flex flex-col gap-2">
-                {links.map(([platform, url]) => (
-                  <li key={platform}>
-                    <Button
-                      variant="outline"
-                      size="lg"
-                      className="w-full justify-between flex"
-                    >
-                      <a
-                        href={url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex gap-2 items-center"
+                {links.map(([platform, url]) => {
+                  const icon = platformIcon(platform);
+                  return (
+                    <li key={platform}>
+                      <Button
+                        variant="outline"
+                        size="lg"
+                        className="w-full justify-between"
+                        nativeButton={false}
+                        render={
+                          <a
+                            href={url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          />
+                        }
                       >
-                        <span className="font-medium">
-                          {platformLabel(platform)}
+                        <span className="flex items-center gap-2">
+                          {icon ? (
+                            <Image
+                              src={icon}
+                              alt=""
+                              width={20}
+                              height={20}
+                              className="size-5"
+                            />
+                          ) : (
+                            <Music className="size-5 text-muted-foreground" />
+                          )}
+                          <span className="font-medium">
+                            {platformLabel(platform)}
+                          </span>
                         </span>
                         <ExternalLink className="size-4 text-muted-foreground" />
-                      </a>
-                    </Button>
-                  </li>
-                ))}
+                      </Button>
+                    </li>
+                  );
+                })}
               </ul>
             ) : (
               <p className="py-4 text-center text-sm text-muted-foreground">
