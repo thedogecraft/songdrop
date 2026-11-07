@@ -47,9 +47,15 @@ function parseLinks(raw: string): [string, string][] {
 }
 
 async function getSong(slug: string) {
-  return prisma.song.findUnique({ where: { slug } });
+  return (
+    (await prisma.song.findUnique({ where: { slug } })) ??
+    prisma.song.findUnique({
+      where: {
+        dedupeKey: slug,
+      },
+    })
+  );
 }
-
 const PLATFORM_ICONS: Record<string, string> = {
   spotify: "/spotify.svg",
   applemusic: "/applemusic.svg",
