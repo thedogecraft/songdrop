@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { LogoFilled } from "@/components/Logo";
 
 function Page() {
   const [url, setUrl] = useState("");
@@ -47,10 +48,15 @@ function Page() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center p-24">
-      <h1 className="text-4xl font-bold">
-        Share Music On all platforms with ghostshare
+    <div className="flex min-h-screen flex-col items-center p-24 justify-center gap-6 text-center">
+      <LogoFilled className="w-16 h-16" />
+      <h1 className="text-5xl font-bold tracking-tight">
+        Share Music. <br />{" "}
+        <span className="text-muted-foreground">Not the Platform.</span>
       </h1>
+      <p className="text-lg text-muted-foreground">
+        Send Universal Links to any song
+      </p>
 
       <form onSubmit={handleSubmit} className="mt-6 flex w-full max-w-md gap-2">
         <Input
