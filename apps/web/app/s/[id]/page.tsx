@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { CopyLinkButton } from "@/components/CopyLinkButton";
 import { getColor } from "colorthief";
+import { ThemeOverride } from "@/components/ThemeOverride";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -212,7 +213,7 @@ export default async function Page({ params }: Props) {
           <CopyLinkButton />
         </footer>
       </div>
-      <style>{color && `:root { --primary: ${color} !important }`}</style>
+      <ThemeOverride color={color || undefined} />
     </main>
   );
 }
