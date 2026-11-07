@@ -25,7 +25,7 @@ function Navbar() {
           <span className="flex size-6 items-center justify-center rounded-full bg-primary text-primary-foreground">
             <Music className="size-3.5" />
           </span>
-          Songspot
+          Songdrop
         </Link>
 
         <span aria-hidden className="h-5 w-px bg-border" />
