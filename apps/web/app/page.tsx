@@ -49,7 +49,7 @@ function Page() {
   return (
     <div className="flex min-h-screen flex-col items-center p-24">
       <h1 className="text-4xl font-bold">
-        Share Music On all platforms with Songdrop
+        Share Music On all platforms with ghostshare
       </h1>
 
       <form onSubmit={handleSubmit} className="mt-6 flex w-full max-w-md gap-2">

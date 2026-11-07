@@ -6,6 +6,7 @@ import { Music } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import Logo from "./Logo";
 
 const links = [{ href: "/", label: "Home" }];
 
@@ -22,10 +23,10 @@ function Navbar() {
           href="/"
           className="flex items-center gap-2 rounded-full pr-2 font-semibold tracking-tight outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          <span className="flex size-6 items-center justify-center rounded-full bg-primary text-primary-foreground">
-            <Music className="size-3.5" />
+          <span className="flex size-6 items-center justify-center rounded-full ">
+            <Logo className="size-10 text-primary" />
           </span>
-          Songdrop
+          Ghostshare
         </Link>
 
         <span aria-hidden className="h-5 w-px bg-border" />

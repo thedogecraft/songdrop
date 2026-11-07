@@ -10,7 +10,7 @@ const instrumentSans = Instrument_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Songdrop - Discover and Share Music",
+  title: "ghostshare - Discover and Share Music",
   description:
     "Share your favorite music with friends and discover new tracks.",
 };

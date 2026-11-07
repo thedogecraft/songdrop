@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { nanoid } from "nanoid";
-import { prisma } from "@songdrop/db";
+import { prisma } from "@ghostshare/db";
 import { resolveTrack } from "@/lib/music/resolve";
 
 export async function POST(req: Request) {

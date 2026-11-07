@@ -1,4 +1,4 @@
-import { prisma } from "@songdrop/db";
+import { prisma } from "@ghostshare/db";
 import { resolveTrack } from "./resolve";
 
 type StoredLinks = Record<string, string>;
@@ -94,8 +94,7 @@ export async function migrateSongLinks(
       ),
     );
 
-    const thumbnailUrl =
-      song.thumbnailUrl ?? resolved.artworkUrl ?? null;
+    const thumbnailUrl = song.thumbnailUrl ?? resolved.artworkUrl ?? null;
     const thumbnailChanged = thumbnailUrl !== song.thumbnailUrl;
     const addedKeys = Object.keys(additions);
 
@@ -119,8 +118,11 @@ export async function migrateSongLinks(
       summary.added[key] = (summary.added[key] ?? 0) + 1;
     }
 
-    const detail = addedKeys.length > 0 ? `+${addedKeys.join(", ")}` : "artwork";
-    onSong?.(`${apply ? "update" : "would "}${song.slug}  ${song.title}  ${detail}`);
+    const detail =
+      addedKeys.length > 0 ? `+${addedKeys.join(", ")}` : "artwork";
+    onSong?.(
+      `${apply ? "update" : "would "}${song.slug}  ${song.title}  ${detail}`,
+    );
   }
 
   return summary;

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { prisma } from "@songdrop/db";
+import { prisma } from "@ghostshare/db";
 import { ExternalLink, Music } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
