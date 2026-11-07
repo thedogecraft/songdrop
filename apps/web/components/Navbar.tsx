@@ -37,7 +37,6 @@ function Navbar() {
             return (
               <li key={href}>
                 <Button
-                  asChild
                   variant={active ? "secondary" : "ghost"}
                   size="sm"
                   className={cn(

@@ -12,6 +12,8 @@ import { CopyLinkButton } from "@/components/CopyLinkButton";
 import { getColor } from "colorthief";
 import { ThemeOverride } from "@/components/ThemeOverride";
 
+export const instant = false;
+
 type Props = { params: Promise<{ id: string }> };
 
 const PLATFORM_LABELS: Record<string, string> = {
