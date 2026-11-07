@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { CopyLinkButton } from "@/components/CopyLinkButton";
+import { getColor } from "colorthief";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -81,13 +82,32 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+async function getDominantColor(url: string) {
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch image: ${response.status}`);
+  }
+
+  const buffer = Buffer.from(await response.arrayBuffer());
+  const color = await getColor(buffer);
+
+  return color?.hex();
+}
+
 export default async function Page({ params }: Props) {
   const { id } = await params;
   const song = await getSong(id);
 
+  let color = null;
+
   if (!song) notFound();
 
   const links = parseLinks(song.links);
+
+  if (song.thumbnailUrl) {
+    color = await getDominantColor(song.thumbnailUrl);
+  }
 
   return (
     <main className="relative isolate min-h-svh overflow-hidden bg-background text-foreground">
@@ -129,7 +149,7 @@ export default async function Page({ params }: Props) {
           </div>
         </header>
 
-        <Card className="bg-card/80 backdrop-blur">
+        <Card className="bg-card/80 backdrop-blur border-primary border ring-0">
           <CardContent className="flex flex-col gap-3 p-4">
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-medium">Listen on</h2>
@@ -192,6 +212,7 @@ export default async function Page({ params }: Props) {
           <CopyLinkButton />
         </footer>
       </div>
+      <style>{color && `:root { --primary: ${color} !important }`}</style>
     </main>
   );
 }
