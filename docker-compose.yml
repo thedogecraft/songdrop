@@ -1,0 +1,32 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: songdrop:latest
+    container_name: songdrop
+    restart: unless-stopped
+    init: true
+    ports:
+      # Bind to localhost only; put Caddy/nginx in front for TLS.
+      - "127.0.0.1:3000:3000"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: "file:/data/prod.db"
+      SPOTIFY_CLIENT_ID: "${SPOTIFY_CLIENT_ID:?set SPOTIFY_CLIENT_ID in .env}"
+      SPOTIFY_CLIENT_SECRET: "${SPOTIFY_CLIENT_SECRET:?set SPOTIFY_CLIENT_SECRET in .env}"
+    volumes:
+      - songdrop-data:/data
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3000/').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  songdrop-data:
